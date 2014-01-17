@@ -41,6 +41,9 @@ function countUp(target, startVal, endVal, decimals, duration) {
     endVal = Number(endVal);
     this.countDown = (startVal > endVal) ? true : false;
     
+    //give ability to stop
+    this.stop = false;
+    
     // toggle easing
     this.useEasing = true;
     
@@ -92,12 +95,12 @@ function countUp(target, startVal, endVal, decimals, duration) {
         self.d.innerHTML = self.addCommas(self.frameVal.toFixed(decimals));
                
         // whether to continue
-        if (progress < self.duration) {
+        if (progress < self.duration && !stop) {
             requestAnimationFrame(self.count);
         } else {
             if (self.callback != null) self.callback();
         }
-    }  
+    }
     this.start = function(callback) {
         self.callback = callback;
         // make sure values are valid
@@ -108,7 +111,14 @@ function countUp(target, startVal, endVal, decimals, duration) {
             self.d.innerHTML = '--';
         }
         return false;
-    }   
+    }
+    
+    this.stop = function()
+    {
+        stop = true;
+        self.callback();
+    }
+    
     this.reset = function() {
         this.d.innerHTML = 0;
     }
