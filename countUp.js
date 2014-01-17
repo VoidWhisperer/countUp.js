@@ -95,7 +95,7 @@ function countUp(target, startVal, endVal, decimals, duration) {
         self.d.innerHTML = self.addCommas(self.frameVal.toFixed(decimals));
                
         // whether to continue
-        if (progress < self.duration && !stopCounting) {
+        if (progress < self.duration && !self.stopCounter) {
             requestAnimationFrame(self.count);
         } else {
             if (self.callback != null) self.callback();
@@ -115,8 +115,7 @@ function countUp(target, startVal, endVal, decimals, duration) {
     
     this.stop = function()
     {
-        stop = true;
-        if (self.callback != null) self.callback();
+        this.stopCounter = true;
     }
     
     this.reset = function() {
